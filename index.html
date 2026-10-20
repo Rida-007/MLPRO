@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueHire</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Using Six Caps for a highly elongated, condensed, editorial typeface -->
+    <link href="https://fonts.googleapis.com/css2?family=Six+Caps&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+    <main class="layout-container">
+
+        <!-- LEFT SIDE: Typography -->
+        <section class="left-pane">
+            <div class="brand-container">
+                <h1 class="brand-title">TrueHire</h1>
+                <button id="btn-start" class="btn-primary">ANALYZE POSTING</button>
+                <p class="hero-description">
+                    AI-powered screening for potentially fraudulent job postings.
+                </p>
+            </div>
+        </section>
+
+        <!-- RIGHT SIDE: Dynamic Content -->
+        <section class="right-pane">
+            
+            <!-- STATE: Landing -->
+            <div id="state-landing" class="state-container image-container"></div>
+            
+            <!-- STATE: Form -->
+            <div id="state-form" class="state-container form-container" style="display: none;">
+                <h2 class="section-title">New Analysis</h2>
+                <form id="analysis-form" class="clean-form" onsubmit="return false;">
+                    
+                    <div class="form-group required">
+                        <label for="job-title">Job Title</label>
+                        <input type="text" id="job-title" placeholder="e.g. Software Engineer" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="job-location">Location</label>
+                            <input type="text" id="job-location" placeholder="e.g. San Francisco, CA">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-department">Department</label>
+                            <input type="text" id="job-department" placeholder="e.g. Engineering">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="job-employment-type">Employment Type</label>
+                            <select id="job-employment-type">
+                                <option value="">Select...</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Temporary">Temporary</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-salary">Salary Range</label>
+                            <input type="text" id="job-salary" placeholder="e.g. 100000-120000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-company-profile">Company Profile</label>
+                        <textarea id="job-company-profile" rows="2" placeholder="Brief company description..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="job-description">Job Description</label>
+                        <textarea id="job-description" rows="3" placeholder="Detailed job description..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="job-requirements">Requirements</label>
+                            <textarea id="job-requirements" rows="2" placeholder="Skills, qualifications..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-benefits">Benefits</label>
+                            <textarea id="job-benefits" rows="2" placeholder="Perks, healthcare..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="job-experience">Required Experience</label>
+                            <input type="text" id="job-experience" placeholder="e.g. Mid-Senior level">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-education">Required Education</label>
+                            <input type="text" id="job-education" placeholder="e.g. Bachelor's Degree">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="job-industry">Industry</label>
+                            <input type="text" id="job-industry" placeholder="e.g. Internet">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-function">Function</label>
+                            <input type="text" id="job-function" placeholder="e.g. Engineering">
+                        </div>
+                    </div>
+
+                    <div class="form-toggles">
+                        <label class="checkbox-label"><input type="checkbox" id="job-telecommuting"> Telecommuting</label>
+                        <label class="checkbox-label"><input type="checkbox" id="job-company-logo"> Has Company Logo</label>
+                        <label class="checkbox-label"><input type="checkbox" id="job-has-questions"> Has Questions</label>
+                    </div>
+
+                    <div id="error-message" class="error-msg" style="display: none;"></div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="btn-analyze" class="btn-primary outline">Analyze Job</button>
+                        <div id="loading-indicator" class="loader" style="display: none;"></div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- STATE: Result -->
+            <div id="state-result" class="state-container result-container" style="display: none;">
+                <div class="result-box">
+                    <h2 class="section-title">Analysis Complete</h2>
+                    <h1 id="result-label" class="result-label">Potentially Fraudulent</h1>
+                    <p id="result-score" class="result-score">Model Decision Score: 0.0000</p>
+
+                    <div class="score-explanation">
+                        <p class="result-disclaimer">
+                            TrueHire provides an ML-based risk assessment. It does not guarantee that a job posting is fraudulent or legitimate.
+                        </p>
+
+                        <div class="score-legend">
+                            <div class="legend-title">How to read the score</div>
+                            <div>Negative scores &rarr; More likely legitimate</div>
+                            <div>+0.20 &rarr; Current decision threshold</div>
+                            <div>Positive scores &rarr; More likely fraudulent</div>
+                            <div class="legend-note">Scores are model signals, not percentages or probabilities.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button id="btn-new" class="btn-primary outline">Start New Analysis</button>
+                        <button id="btn-return" class="btn-text">Return to Home</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+</body>
+
+</html>

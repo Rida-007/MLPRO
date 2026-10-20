@@ -1,0 +1,4 @@
+Model,Best_CV_F1,Best_Params
+Logistic Regression,0.7685091658251244,"{'classifier__C': 5, 'classifier__class_weight': 'balanced'}"
+Linear SVM,0.8060046162837924,"{'classifier__C': 5, 'classifier__class_weight': 'balanced'}"
+Random Forest,0.7169433226112879,"{'classifier__class_weight': 'balanced', 'classifier__max_depth': None, 'classifier__min_samples_leaf': 2, 'classifier__n_estimators': 200}"
